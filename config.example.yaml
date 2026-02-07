@@ -1,0 +1,62 @@
+# AetherPackBot Configuration
+# Copy this file to config.yaml and modify as needed
+
+# Debug mode
+debug: false
+
+# Data directory for storing persistent data
+data_dir: data
+
+# Plugins directory
+plugins_dir: plugins
+
+# Default LLM provider
+default_provider: openai
+
+# Bot settings
+bot:
+  name: AetherPackBot
+  prefix: /
+  admin_users: []
+
+# Logging configuration
+logging:
+  level: INFO
+  format: json
+  # file: logs/aetherpack.log
+
+# API server settings
+api:
+  enabled: true
+  host: 0.0.0.0
+  port: 8080
+  cors_origins:
+    - "*"
+
+# Platform configurations
+platforms:
+  telegram:
+    enabled: false
+    token: ""  # Your Telegram bot token
+    
+  discord:
+    enabled: false
+    token: ""  # Your Discord bot token
+
+# LLM provider configurations
+providers:
+  openai:
+    enabled: false
+    api_key: ""  # Your OpenAI API key
+    model: gpt-4
+    # base_url: ""  # Optional: custom endpoint
+    
+  anthropic:
+    enabled: false
+    api_key: ""  # Your Anthropic API key
+    model: claude-3-opus-20240229
+    
+  gemini:
+    enabled: false
+    api_key: ""  # Your Google AI API key
+    model: gemini-pro

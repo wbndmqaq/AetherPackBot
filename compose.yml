@@ -1,0 +1,18 @@
+services:
+  aetherpackbot:
+    build: .
+    container_name: aetherpackbot
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data:/app/data
+      - ./plugins:/app/plugins
+      - ./config.yaml:/app/config.yaml:ro
+    environment:
+      - AETHERPACK_DEBUG=false
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3

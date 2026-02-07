@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AetherPackBot 管理面板</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                <span>AetherPackBot</span>
+            </div>
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" data-page="dashboard">
+                    <i class="fas fa-chart-line"></i>
+                    <span>仪表板</span>
+                </a>
+                <a href="#" class="nav-item" data-page="platforms">
+                    <i class="fas fa-plug"></i>
+                    <span>平台管理</span>
+                </a>
+                <a href="#" class="nav-item" data-page="plugins">
+                    <i class="fas fa-puzzle-piece"></i>
+                    <span>插件管理</span>
+                </a>
+                <a href="#" class="nav-item" data-page="providers">
+                    <i class="fas fa-brain"></i>
+                    <span>AI 提供商</span>
+                </a>
+                <a href="#" class="nav-item" data-page="chat">
+                    <i class="fas fa-comments"></i>
+                    <span>聊天测试</span>
+                </a>
+                <a href="#" class="nav-item" data-page="config">
+                    <i class="fas fa-cog"></i>
+                    <span>配置管理</span>
+                </a>
+                <a href="#" class="nav-item" data-page="logs">
+                    <i class="fas fa-file-alt"></i>
+                    <span>日志查看</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="version">v1.0.0</div>
+            </div>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <!-- 顶部栏 -->
+            <header class="top-bar">
+                <div class="page-title">
+                    <h1 id="page-title">仪表板</h1>
+                </div>
+                <div class="top-actions">
+                    <div class="status-indicator" id="connection-status">
+                        <span class="status-dot"></span>
+                        <span class="status-text">检查中...</span>
+                    </div>
+                    <button class="btn btn-icon" id="refresh-btn" title="刷新">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                    <button class="btn btn-icon" id="theme-toggle" title="切换主题">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- 内容区域 -->
+            <div class="content-area" id="content-area">
+                <!-- 仪表板页面 -->
+                <div class="page active" id="page-dashboard">
+                    <div class="dashboard-stats">
+                        <div class="stat-card">
+                            <div class="stat-icon platforms">
+                                <i class="fas fa-plug"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="platforms-count">0</h3>
+                                <p>已连接平台</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon plugins">
+                                <i class="fas fa-puzzle-piece"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="plugins-count">0</h3>
+                                <p>已加载插件</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon providers">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="providers-count">0</h3>
+                                <p>AI 提供商</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon uptime">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="uptime">--:--:--</h3>
+                                <p>运行时间</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <div class="card">
+                            <div class="card-header">
+                                <h2><i class="fas fa-plug"></i> 平台状态</h2>
+                            </div>
+                            <div class="card-body" id="platforms-status">
+                                <div class="loading">加载中...</div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h2><i class="fas fa-puzzle-piece"></i> 已加载插件</h2>
+                            </div>
+                            <div class="card-body" id="plugins-status">
+                                <div class="loading">加载中...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 平台管理页面 -->
+                <div class="page" id="page-platforms">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-plug"></i> 平台管理</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="data-table-container" id="platforms-table">
+                                <div class="loading">加载中...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 插件管理页面 -->
+                <div class="page" id="page-plugins">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-puzzle-piece"></i> 插件管理</h2>
+                            <button class="btn btn-primary" id="reload-all-plugins">
+                                <i class="fas fa-sync-alt"></i> 重载全部
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="plugins-grid" id="plugins-grid">
+                                <div class="loading">加载中...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI 提供商页面 -->
+                <div class="page" id="page-providers">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-brain"></i> AI 提供商</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="providers-grid" id="providers-grid">
+                                <div class="loading">加载中...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 聊天测试页面 -->
+                <div class="page" id="page-chat">
+                    <div class="chat-container">
+                        <div class="chat-settings">
+                            <div class="form-group">
+                                <label>AI 提供商</label>
+                                <select id="chat-provider">
+                                    <option value="">默认</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>模型</label>
+                                <input type="text" id="chat-model" placeholder="使用默认模型">
+                            </div>
+                            <div class="form-group">
+                                <label>系统提示词</label>
+                                <textarea id="chat-system-prompt" placeholder="可选的系统提示词..."></textarea>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Temperature</label>
+                                    <input type="number" id="chat-temperature" min="0" max="2" step="0.1" placeholder="0.7">
+                                </div>
+                                <div class="form-group">
+                                    <label>Max Tokens</label>
+                                    <input type="number" id="chat-max-tokens" min="1" placeholder="1024">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-messages" id="chat-messages">
+                            <div class="chat-welcome">
+                                <i class="fas fa-robot"></i>
+                                <p>发送消息开始测试 AI 对话</p>
+                            </div>
+                        </div>
+                        <div class="chat-input-container">
+                            <textarea id="chat-input" placeholder="输入消息..." rows="1"></textarea>
+                            <button class="btn btn-primary" id="send-message">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 配置管理页面 -->
+                <div class="page" id="page-config">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-cog"></i> 配置管理</h2>
+                            <div class="header-actions">
+                                <button class="btn btn-secondary" id="reload-config">
+                                    <i class="fas fa-sync-alt"></i> 重载配置
+                                </button>
+                                <button class="btn btn-primary" id="save-config">
+                                    <i class="fas fa-save"></i> 保存配置
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="config-editor">
+                                <textarea id="config-content" class="code-editor" placeholder="加载中..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 日志查看页面 -->
+                <div class="page" id="page-logs">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-file-alt"></i> 日志查看</h2>
+                            <div class="header-actions">
+                                <select id="log-level-filter">
+                                    <option value="all">全部级别</option>
+                                    <option value="debug">DEBUG</option>
+                                    <option value="info">INFO</option>
+                                    <option value="warning">WARNING</option>
+                                    <option value="error">ERROR</option>
+                                </select>
+                                <button class="btn btn-secondary" id="clear-logs">
+                                    <i class="fas fa-trash"></i> 清空
+                                </button>
+                                <button class="btn btn-secondary" id="refresh-logs">
+                                    <i class="fas fa-sync-alt"></i> 刷新
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="logs-container" id="logs-container">
+                                <div class="log-entry info">
+                                    <span class="log-time">--:--:--</span>
+                                    <span class="log-level">INFO</span>
+                                    <span class="log-message">日志功能待实现</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast 通知 -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal" id="modal">
+            <div class="modal-header">
+                <h3 id="modal-title">标题</h3>
+                <button class="btn btn-icon modal-close" id="modal-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                内容
+            </div>
+            <div class="modal-footer" id="modal-footer">
+                <button class="btn btn-secondary" id="modal-cancel">取消</button>
+                <button class="btn btn-primary" id="modal-confirm">确认</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/api.js"></script>
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
